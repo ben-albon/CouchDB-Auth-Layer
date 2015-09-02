@@ -2,7 +2,7 @@ CouchDB Integration
 ------
 This proxy expects each CouchDB document to contain a dict called authLayer.
 
-The authLayer dict is expected to contain a number of key:value pairs, where the key is a HTTP request method, and the value is a list of session_data elements required for the request to be accepted.
+The authLayer dict is expected to contain a number of key:value pairs, where the key is a HTTP request method, and the value is a list of sessions that are allowed access.
 
 ("ANY" is an additional key, which will match any HTTP request method).
 
@@ -17,6 +17,11 @@ For example, a document setup for authLayer might look like this:
                "oauth2_provider": "github.com",
                "oauth2_uid": 2345678,
                "ouath2_nickname": "jane-doe"
+           },
+           {
+               "oauth2_provider": "github.com",
+               "oauth2_uid": 3456789,
+               "ouath2_nickname": "john-smith"
            }
        ],
        "ANY": [
@@ -29,7 +34,7 @@ For example, a document setup for authLayer might look like this:
    }
 }
 ```
-In this example, jane-doe would be allowed to GET the document, but only ben-albon would be allowed to POST changes to the document.
+In this example, jane-doe and john-smith would be allowed to GET the document, but only ben-albon would be allowed to POST changes to the document.
 
 SessionDB Integration
 ------
