@@ -58,7 +58,7 @@ def couchdbProxy(database, document):
 			print("missing ANY ACL for {0}/{1}".format(database, document))
 		pass
 	if not acl:
-		print('{0}/{1} authLayer is not configured for {2} requests (missing {2} or ANY dict)'.format(database, document, request.method))
+		print('{0}/{1} authLayer is not configured for {2} requests (missing {2} or ANY list)'.format(database, document, request.method))
 		return "Access Denied", 403
 
 	# PostgreSQL Session Data
@@ -100,10 +100,10 @@ def couchdbProxy(database, document):
 			del proxy_request_headers_dict['Origin']
 			del proxy_request_headers_dict['Cookie']
 			if app.config['DEBUG']:
-				print("======== Proxied_Headers ========".format(methodname))
+				print("======== Proxied_Headers ========")
 				for key in proxy_request_headers_dict:
 					print("{0}: {1}".format(key, proxy_request_headers_dict[key]))
-				print("======== /Proxied_Headers ========".format(methodname))
+				print("======== /Proxied_Headers ========")
 			# Proxy using the new Headers, but the original method and data
 			proxy_url = config.couchURL + urllib.parse.quote("/" + database + "/" + document)
 			proxy_request = requests.Request(method=request.method, url=proxy_url, headers=proxy_request_headers_dict, data=request.data )
