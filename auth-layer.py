@@ -98,7 +98,7 @@ def couchdbProxy(database, document):
 				proxy_request_headers_dict[key] = request.headers.get(key)
 			proxy_request_headers_dict['Host'] = config.couchHost
 			if not proxy_request_headers_dict['Content-Length']:
-				proxy_request_headers_dict['Content-Length'] = 0
+				proxy_request_headers_dict['Content-Length'] = "0"
 			proxy_request_headers_dict.pop('Referer', None)
 			proxy_request_headers_dict.pop('Origin', None)
 			proxy_request_headers_dict.pop('Cookie', None)
