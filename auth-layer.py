@@ -24,7 +24,7 @@ pgcur = pg.cursor()
 def pathFailure(path):
 	return 'Bad Request - expected database/document', 400
 
-@app.route('/<database>/<document>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/<path:database>/<document>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def couchdbProxy(database, document):
 	# Debug
 	if app.config['DEBUG']:
@@ -113,7 +113,9 @@ def couchdbProxy(database, document):
 					print("{0}: {1}".format(key, proxy_request_headers_dict[key]))
 				print("======== /Proxied_Headers ========")
 			# Proxy using the new Headers, but the original method and data
-			proxy_url = config.couchURL + urllib.parse.quote("/" + database + "/" + document)
+			database_URL = urllib.parse.quote_plus(database)
+			document_URL = urllib.parse.quote_plus(document)
+			proxy_url = config.couchURL + "/" + database_URL + "/" + document_URL
 			proxy_request = requests.Request(method=request.method, url=proxy_url, headers=proxy_request_headers_dict, data=request.data )
 			proxy_response = requests.Session().send(proxy_request.prepare())
 			return (proxy_response.text, proxy_response.status_code, proxy_response.headers.items())
