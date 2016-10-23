@@ -63,7 +63,10 @@ def couchdbProxy(database, document):
 
 	# PostgreSQL Session Data
 	pgcur.execute("SELECT session_data FROM session WHERE session_id = '{0}'".format(sessionid))
-	raw_session_data = pgcur.fetchone()[0]
+	try:
+		raw_session_data = pgcur.fetchone()[0]
+	except TypeError:
+		return "Session Not Found", 401
 	session_data = {}
 	for item in raw_session_data.split(";"):
 		try:
