@@ -59,3 +59,20 @@ This gives room for a lot of flexibility in access control.  For example, the fo
 }
 ```
 I welcome any pull request that extends this proxy to work with other session handlers :-)
+
+Docker
+------
+I've included some scripts to create/run your own docker container, but it's probably better to build from the official benaalbon/couchdb-auth-layer:latest.
+
+To do that, create a folder with:
+* a configuration file, **config.py**, that includes your own specific auth-layer configurations
+* a Dockerfile that includes
+```
+FROM benalbon/couchdb-auth-layer
+COPY config.py /usr/src/app/config.py
+```
+build the image with
+```
+docker build -t my-couchdb-auth-layer .
+```
+and you are done - easy
