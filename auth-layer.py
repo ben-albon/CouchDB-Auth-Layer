@@ -19,6 +19,11 @@ couch = couchdb.Server(config.couchURL)
 pg = psycopg2.connect("host={0} dbname={1} user={2} password={3}".format(config.sessiondb_host, config.sessiondb_db, config.sessiondb_user, config.sessiondb_pw))
 pgcur = pg.cursor()
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def pathFailure(path):
+	return 'Bad Request - expected database/document', 400
+
 @app.route('/<database>/<document>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def couchdbProxy(database, document):
 	# Debug
